@@ -1,7 +1,10 @@
 var topics = ['apex legends', 'league of legends', 'cats', 'salmon', 'visualizer', 'vr', 'augmented reality', 'magic the gathering', 'lost in space', 'dessert', 'bbq', 'roller coasters', 'cheese', 'potatoes', 'cheesy potatoes', 'swordfighting', 'cosmos', 'snow', 'mountains', 'skiing', 'cool tricks', '90s', 'vaporwave', 'eyes', 'eyebrows'];
 
+
+
 //variable to designate which column to deposit gifs into 
 var colCurr = 0;
+
 
 //each gif starts stopped, img.onclick != still
 
@@ -18,30 +21,29 @@ var colCurr = 0;
 //              when clicked    this          sends a question to giphy
 // $(document).on("click", ".topicbuttons", giphyRing())
 
+createButtons();
+
+
 //onSUBMIT:
 function createButtons() {
-
+    console.log("create buttons triggered");
     //clear button-collector div
     $("buttons-collect").empty();
 
     //loop through topics topic.length times and make a button for each entry
     for (var i = 0; i < topics.length; i++) {
-        var buttonTag = $("<button>");
+        var buttonTag = $("<button class='btn btn-primary'>");
         var buttonClickHandler = "#button-click";
-        var buttonValue = i;
+        var buttonId = i;
+        var buttonClose = "</button>";
 
-        $("buttons-collect").appendChild
+        // var ratingText = "<p>"+results[i].rating+"</p>";
+
+        // $("buttons-collect").append(buttonTag);
 
     }
 
 }
-
-//button creation
-//button <button> tag
-//id generate-gif
-//onclick event ajax query 
-
-
 
 //onBUTTONCLICK
 function gifRinger() {
@@ -55,16 +57,13 @@ function gifRinger() {
 }
 
 
-$("#button-click").on("click", function () {
-
+$("button").on("click", function () {
+    var searchFor = $("#search-form").val();
+    console.log("searchFor: "+searchFor);
     var myAPI = "fpmcmDaPyMhRoYZdMK5FrTw9laKEKAWJ";
-    // api url
-    // api is suppose to return a random search using cat as our search term
-    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=" + myAPI + "&tag=" + searchFor;
 
-    //  jquery ajax call
-    // url => url to hit
-    // method => get request according to documentation
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key="+myAPI+"&q="+searchFor+"&limit=10&rating=PG&lang=en"
+
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -88,6 +87,7 @@ $("#button-click").on("click", function () {
             // code for selecting the column
             if (colCurr >= 2) {
                 colCurr = 0;
+                console.log("colCurr: "+colCurr);
             }
             // HTMLtag variables
             // var imageTag = "<img>";
