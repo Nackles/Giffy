@@ -12,34 +12,42 @@ function createButtons() {
 
     //loop through topics topic.length times and make a button for each entry
     for (var i = 0; i < topics.length; i++) {
-        //OH MY GAH IT WORKED!!
-        var newButton = $("<button/>", {
+        $("<button/>", {
             text: topics[i],
             id: "click_" + i,
-            click: function () { giphyCall() }
+            click: function () { }
         });
-        $("#button-collector").append(newButton);
+
+    for (i = 1; i <= 10; i++) {
+        $('<button/>', {
+            text: i, //set text 1 to 10
+            id: 'btn_' + i,
+            click: function () { alert('hi'); }
+        });
     }
 
-    // var buttonTag = $("<button class='btn btn-primary'>");
-    // var buttonText = topics[i];
-    // toString(buttonText);
-    // buttonTag.append(buttonText);
-    // buttonTag.attr("data-name", topics[i]);
 
-    // //YOU LEFT OFF HERE: TOPICS IS CORRECT, BUTTON TAG IS RETURNING OBJECT OBJECT
-    // console.log(topics[i]);
 
-    // $("#button-collector").append(buttonTag + "</button>");
+
+    var buttonTag = $("<button class='btn btn-primary'>");
+    var buttonText = topics[i];
+    toString(buttonText);
+    buttonTag.append(buttonText);
+    buttonTag.attr("data-name", topics[i]);
+
+    //YOU LEFT OFF HERE: TOPICS IS CORRECT, BUTTON TAG IS RETURNING OBJECT OBJECT
+    console.log(topics[i]);
+
+    $("#button-collector").append(buttonTag + "</button>");
 } 
-
+}
 
 ////////////
 //GET GIFS//
 ////////////
 function giphyCall() {
 
-    var searchFor = $(this).attr("text"); //get search term
+    var searchFor = $("#search-form").val(); //get search term
     console.log("searchFor: " + searchFor); //did it work
 
     var myAPI = "fpmcmDaPyMhRoYZdMK5FrTw9laKEKAWJ"; //unneccessary
@@ -54,7 +62,7 @@ function giphyCall() {
         // pass in response as a parameter to capture the data obj returned
         .then(function (response) {
             var gifRating = response.rating;
-            console.log(response);
+
             // declare a variable and set it equal to the image uri using dot notation
             var imageUrl = response.data.image_original_url;
 
@@ -66,8 +74,22 @@ function giphyCall() {
             // reference catImage and use jquery attr method to add a value to the alt attribute
             imageTag.attr("alt", "gifferondo");
 
+            // code for selecting the column
+            if (colCurr >= 2) {
+                colCurr = 0;
+                console.log("colCurr: " + colCurr);
+            }
+            // HTMLtag variables
+            // var imageTag = "<img>";
+            // link from ajax
+            // var imageLink = "do i even need this";
+            // var thisRating = "rating from ajax call";
+
             // use jquery to select the div with id=images and use jquery .prepend method to render the catImage div we just created
             $("#images").prepend(imageTag);
 
+            //runs after placement so correct selection is ready next time
+            colCurr++;
+
         });
-};
+});
