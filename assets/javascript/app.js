@@ -15,8 +15,9 @@ function createButtons() {
         //OH MY GAH IT WORKED!!
         var newButton = $("<button/>", {
             text: topics[i],
-            id: "click_" + i,
-            click: function () { giphyCall() }
+            class: "btn btn-primary my-1",
+            id: topics[i],
+            click: function (event) { giphyCall(event) }
         });
         $("#button-collector").append(newButton);
     }
@@ -31,16 +32,15 @@ function createButtons() {
     // console.log(topics[i]);
 
     // $("#button-collector").append(buttonTag + "</button>");
-} 
+}
 
 
 ////////////
 //GET GIFS//
 ////////////
-function giphyCall() {
-
-    var searchFor = $(this).attr("text"); //get search term
-    console.log("searchFor: " + searchFor); //did it work
+function giphyCall(event) {
+    var searchFor = event.target.id; //get search term
+    console.log(searchFor); //did it work
 
     var myAPI = "fpmcmDaPyMhRoYZdMK5FrTw9laKEKAWJ"; //unneccessary
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=" + myAPI + "&q=" + searchFor + "&limit=10&rating=PG&lang=en"
