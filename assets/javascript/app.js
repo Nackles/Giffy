@@ -1,4 +1,4 @@
-//FUNCTIONALITY: Button list is loaded and deletes/refills the container each time for each entry in the topics index. gifs load, can be animated or stilled, and the finaly functionality of a working add button is not far off. i just really need the safety push for the peace of mind! 
+//MVP ACHIEVED
 
 var topics = ['apex legends', 'league of legends', 'cats', 'salmon', 'visualizer', 'vr', 'augmented reality', 'magic the gathering', 'lost in space', 'dessert', 'bbq', 'roller coasters', 'cheese', 'potatoes', 'cheesy potatoes', 'swordfighting', 'cosmos', 'snow', 'mountains', 'skiing', 'cool tricks', '90s', 'vaporwave', 'eyes', 'eyebrows'];
 
@@ -61,6 +61,9 @@ function giphyCall(event) {
             $("#gif-collector").empty();
             for (let i = 0; i <= 9; i++) {
                 //problem is somewhere below
+                var aDiv = $("<div>")
+
+                //constructing the imagetag
                 var imageTag = $("<img>", {
                     src: response.data[i].images.fixed_height_small_still.url,
                     class: "p-3",
@@ -70,7 +73,8 @@ function giphyCall(event) {
                     width: "250px",
                     state: "still",
                     moving: response.data[i].images.fixed_height_small.url,
-                    text: ("Rated "+response.data[i].rating),
+                    value: ("Rated " + response.data[i].rating),
+                    alt: "gifferondo",
                     click: function (event) {
                         event.preventDefault();
                         var state = $(this).attr("state");
@@ -86,16 +90,11 @@ function giphyCall(event) {
                     }
 
                 });
-                // imageTag.val("Rated "+response.data[i].rating);
-                // // reference catImage and use jquery attr method to add a value to the alt attribute
 
-                // imageTag.attr("alt", "gifferondo");
-                // imageTag.attr("text", response.data[i].rating);
-                // imageTag.append("<br><p>Rated " + (response.data[i].rating));
-                // // use jquery to select the div with id=images and use jquery .prepend method to render the catImage div we just created
-                $("#gif-collector").prepend(imageTag);
-
-
+                //add the div to gif-collector, add image-tag to div, add rating text next to image
+                $("#gif-collector").append(aDiv);
+                aDiv.append(imageTag);
+                aDiv.append(response.data[i].rating);
 
             }
 
