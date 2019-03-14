@@ -65,14 +65,12 @@ function giphyCall(event) {
 
                 //constructing the imagetag
                 var imageTag = $("<img>", {
-                    src: response.data[i].images.fixed_height_small_still.url,
+                    src: response.data[i].images.original_still.url,
                     class: "p-3",
                     rating: response.data[i].rating,
-                    still: response.data[i].images.fixed_height_small_still.url,
-                    height: "250px",
-                    width: "250px",
+                    still: response.data[i].images.original_still.url,
                     state: "still",
-                    moving: response.data[i].images.fixed_height_small.url,
+                    moving: response.data[i].images.original.url,
                     value: ("Rated " + response.data[i].rating),
                     alt: "gifferondo",
                     click: function (event) {
