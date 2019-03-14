@@ -1,3 +1,5 @@
+//FUNCTIONALITY: Button list is loaded and deletes/refills the container each time for each entry in the topics index. gifs load, can be animated or stilled, and the finaly functionality of a working add button is not far off. i just really need the safety push for the peace of mind! 
+
 var topics = ['apex legends', 'league of legends', 'cats', 'salmon', 'visualizer', 'vr', 'augmented reality', 'magic the gathering', 'lost in space', 'dessert', 'bbq', 'roller coasters', 'cheese', 'potatoes', 'cheesy potatoes', 'swordfighting', 'cosmos', 'snow', 'mountains', 'skiing', 'cool tricks', '90s', 'vaporwave', 'eyes', 'eyebrows'];
 
 createButtons();
@@ -8,7 +10,7 @@ createButtons();
 function createButtons() {
     console.log("create buttons triggered"); //function went
 
-    $("button-collector").empty(); //clear div
+    $("button-collector").empty(); //clear the buttons
 
     //loop through topics topic.length times and make a button for each entry
     for (var i = 0; i < topics.length; i++) {
@@ -19,31 +21,21 @@ function createButtons() {
             id: topics[i],
             click: function (event) { giphyCall(event) }
         });
+        //collect the buttons
         $("#button-collector").append(newButton);
     }
-
-    // var buttonTag = $("<button class='btn btn-primary'>");
-    // var buttonText = topics[i];
-    // toString(buttonText);
-    // buttonTag.append(buttonText);
-    // buttonTag.attr("data-name", topics[i]);
-
-    // //YOU LEFT OFF HERE: TOPICS IS CORRECT, BUTTON TAG IS RETURNING OBJECT OBJECT
-    // console.log(topics[i]);
-
-    // $("#button-collector").append(buttonTag + "</button>");
 }
 
 
-////////////
-//GET GIFS//
-////////////
+///////////////////////////
+//GET GIFS + DISPLAY THEM//
+///////////////////////////
 function giphyCall(event) {
     var searchFor = event.target.id; //get search term
     console.log(searchFor); //did it work
 
     var myAPI = "fpmcmDaPyMhRoYZdMK5FrTw9laKEKAWJ"; //unneccessary
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=" + myAPI + "&q=" + searchFor + "&limit=10&rating=PG&lang=en"
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=" + myAPI + "&q=" + searchFor + "&limit=10&lang=en";
 
     $.ajax({
         url: queryURL,
@@ -53,21 +45,44 @@ function giphyCall(event) {
         // .then is our Promise => it is triggered on any response
         // pass in response as a parameter to capture the data obj returned
         .then(function (response) {
-            var gifRating = response.rating;
             console.log(response);
-            // declare a variable and set it equal to the image uri using dot notation
-            var imageUrl = response.data.image_original_url;
+            $("#gif-collector").empty();
+            for (let i = 0; i <= 9; i++) {
+                //problem is somewhere below
+                var imageTag = $("<img>", {
+                    src: response.data[i].images.fixed_height_small_still.url,
+                    class: "p-3",
+                    rating: response.data[i].rating,
+                    still: response.data[i].images.fixed_height_small_still.url,
+                    height: "250px",
+                    width: "250px",
+                    state: "still",
+                    moving: response.data[i].images.fixed_height_small.url,
+                    click: function (event) {
+                        event.preventDefault();
+                        var state = $(this).attr("state");
+                        if (state === "still") {
+                            $(this).attr("src", $(this).attr("moving"));
+                            $(this).attr("state", "animate");
+                            console.log("STILLED IMAGE");
+                        } else {
+                            $(this).attr("src", $(this).attr("still"));
+                            $(this).attr("state", "still");
+                            console.log("NOT");     
+                        }
+                    }
+                });
 
-            // use jquery to dynamically create a html img element
-            var imageTag = $("<img>");
+                // reference catImage and use jquery attr method to add a value to the alt attribute
+                imageTag.attr("alt", "gifferondo");
+                imageTag.append("<br>");
+                // use jquery to select the div with id=images and use jquery .prepend method to render the catImage div we just created
+                $("#gif-collector").prepend(imageTag);
 
-            // reference catImage and use jquery attr method to add a value to the src attribute
-            imageTag.attr("src", imageUrl);
-            // reference catImage and use jquery attr method to add a value to the alt attribute
-            imageTag.attr("alt", "gifferondo");
 
-            // use jquery to select the div with id=images and use jquery .prepend method to render the catImage div we just created
-            $("#images").prepend(imageTag);
+
+            }
+
 
         });
 };
