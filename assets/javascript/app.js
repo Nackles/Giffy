@@ -10,7 +10,7 @@ createButtons();
 function createButtons() {
     console.log("create buttons triggered"); //function went
 
-    $("button-collector").empty(); //clear the buttons
+    $("#button-collector").empty(); //clear the buttons
 
     //loop through topics topic.length times and make a button for each entry
     for (var i = 0; i < topics.length; i++) {
@@ -25,6 +25,18 @@ function createButtons() {
         $("#button-collector").append(newButton);
     }
 }
+
+
+///////////////////////////////////
+//GRAB INPUT VALUE AND ADD BUTTON//
+///////////////////////////////////
+$("#search-grabe").on("click", function () {
+
+    topics.push($("#search-form").val());
+    createButtons();
+    $("#search-form").val("");
+})
+
 
 
 ///////////////////////////
@@ -68,7 +80,7 @@ function giphyCall(event) {
                         } else {
                             $(this).attr("src", $(this).attr("still"));
                             $(this).attr("state", "still");
-                            console.log("NOT");     
+                            console.log("NOT");
                         }
                     }
                 });
