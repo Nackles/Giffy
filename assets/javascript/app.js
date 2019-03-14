@@ -70,6 +70,7 @@ function giphyCall(event) {
                     width: "250px",
                     state: "still",
                     moving: response.data[i].images.fixed_height_small.url,
+                    text: ("Rated "+response.data[i].rating),
                     click: function (event) {
                         event.preventDefault();
                         var state = $(this).attr("state");
@@ -83,12 +84,15 @@ function giphyCall(event) {
                             console.log("NOT");
                         }
                     }
-                });
 
-                // reference catImage and use jquery attr method to add a value to the alt attribute
-                imageTag.attr("alt", "gifferondo");
-                imageTag.append("<br>");
-                // use jquery to select the div with id=images and use jquery .prepend method to render the catImage div we just created
+                });
+                // imageTag.val("Rated "+response.data[i].rating);
+                // // reference catImage and use jquery attr method to add a value to the alt attribute
+
+                // imageTag.attr("alt", "gifferondo");
+                // imageTag.attr("text", response.data[i].rating);
+                // imageTag.append("<br><p>Rated " + (response.data[i].rating));
+                // // use jquery to select the div with id=images and use jquery .prepend method to render the catImage div we just created
                 $("#gif-collector").prepend(imageTag);
 
 
